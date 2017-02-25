@@ -126,7 +126,6 @@ public final class JavaFile {
 
   private void emit(CodeWriter codeWriter) throws IOException {
     codeWriter.pushPackage(packageName);
-
     if (!fileComment.isEmpty()) {
       codeWriter.emitComment(fileComment);
     }
@@ -153,7 +152,8 @@ public final class JavaFile {
     if (importedTypesCount > 0) {
       codeWriter.emit("\n");
     }
-
+    // lookup the current class so that it has precedent over others
+    codeWriter.lookupName(ClassName.get(packageName, typeSpec.name));
     typeSpec.emit(codeWriter, null, Collections.<Modifier>emptySet());
 
     codeWriter.popPackage();

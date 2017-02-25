@@ -625,6 +625,18 @@ public final class TypeSpecTest {
         + "}\n");
   }
 
+  @Test public void classExtendsSameName() throws Exception {
+    ClassName fishTaco = ClassName.get("org.fish.taco", "Taco");
+    TypeSpec typeSpec = TypeSpec.classBuilder("Taco").superclass(fishTaco).build();
+    assertThat(toString(typeSpec)).isEqualTo("package com.squareup.tacos;\n" + "\n" + "class Taco extends org.fish.taco.Taco {\n" + "}\n");
+  }
+
+@Test public void classImplementsSameName() throws Exception {
+    ClassName fishTaco = ClassName.get("org.fish.taco", "Taco");
+    TypeSpec typeSpec = TypeSpec.classBuilder("Taco").addSuperinterface(fishTaco).build();
+    assertThat(toString(typeSpec)).isEqualTo("package com.squareup.tacos;\n" + "\n" + "class Taco implements org.fish.taco.Taco {\n" + "}\n");
+}
+
   @Test public void classImplementsExtendsSameName() throws Exception {
     ClassName javapoetTaco = ClassName.get(tacosPackage, "Taco");
     ClassName tacoBellTaco = ClassName.get("com.taco.bell", "Taco");
